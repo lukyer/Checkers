@@ -10,9 +10,18 @@ TARGET = Checkers
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        checkerswindow.cpp
+SOURCES +=\
+    checkerswindow.cpp \
+    main.cpp \
+    move.cpp \
+    checkers.cpp \
+    player.cpp
 
-HEADERS  += checkerswindow.h
+HEADERS  += \
+    checkerswindow.h \
+    move.h \
+    checkers.h \
+    player.h \
+    common.h
 
 FORMS    += checkerswindow.ui
