@@ -18,7 +18,9 @@ SOURCES +=\
     player.cpp \
     realplayer.cpp \
     guiboard.cpp \
-    aiplayer.cpp
+    aiplayer.cpp \
+    guifigure.cpp \
+    guisquare.cpp
 
 HEADERS  += \
     checkerswindow.h \
@@ -28,9 +30,13 @@ HEADERS  += \
     common.h \
     realplayer.h \
     guiboard.h \
-    aiplayer.h
+    aiplayer.h \
+    guifigure.h \
+    guisquare.h
 
 FORMS    += checkerswindow.ui
 
 OTHER_FILES += \
     ../README.md
+
+QMAKE_CXXFLAGS += -std=c++0x

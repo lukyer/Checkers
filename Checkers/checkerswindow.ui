@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1206</width>
+    <height>834</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="GUIBoard" name="board">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>50</y>
-      <width>256</width>
-      <height>192</height>
+      <x>40</x>
+      <y>20</y>
+      <width>1061</width>
+      <height>611</height>
      </rect>
     </property>
    </widget>
@@ -30,7 +30,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>1206</width>
      <height>29</height>
     </rect>
    </property>

@@ -7,6 +7,11 @@ Checkers::Checkers()
     this->onturn = PLAYER_W;    // white starts
 }
 
+BoardTypes Checkers::getBoard(int x, int y) {
+    if (x < 0 || x > 7 || y < 0 || y > 7) throw "Coords not valid.";
+    return this->board[x][y];
+}
+
 void Checkers::resetBoard() {
     memcpy(&board, BOARD_INITIAL, sizeof(BOARD_INITIAL));
 }

@@ -27,11 +27,13 @@ public:
     Player *getPlayerW();
     Player *getPlayerB();
     Players getOnTurn();
+    BoardTypes getBoard(int x,int y);
 
     void play();
+    BoardTypes board[8][8];
 
 private:
-    int board[8][8];
+
     QVector<Move> moves;
     Player *playerW;
     Player *playerB;
