@@ -9,9 +9,9 @@ class GUISquare : public QGraphicsWidget
     Q_OBJECT
 public:
     explicit GUISquare(QGraphicsWidget *parent = 0);
-    virtual QRectF boundingRect() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
@@ -26,6 +26,7 @@ protected:
     Position index;
 
 signals:
+    void wantMove(Position, Position);
     
 public slots:
     

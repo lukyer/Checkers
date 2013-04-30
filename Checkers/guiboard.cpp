@@ -57,7 +57,7 @@ void GUIBoard::redraw() {
 
             grid->addItem(square, 7-x, y); // 7-x protoze kreslime zvrchu dolu, ale pole mame zdola nahoru
             // Aby figurka nemusela mit pristup k pianu (top objekt Checkers), tak jen od ni vyzvedavame signaly v pripade interakce
-            connect(fig, SIGNAL(wantMove(Position,QPointF)), this, SLOT(figureMove(Position,QPointF)));
+            connect(square, SIGNAL(wantMove(Position,Position)), this, SLOT(figureMove(Position,Position)));
 
 
         }
@@ -74,10 +74,10 @@ void GUIBoard::redraw() {
 
 
 
-void GUIBoard::figureMove(Position index, QPointF to)
+void GUIBoard::figureMove(Position from, Position to)
 {
-    qDebug() << "some figure moving " << index.x << "x" << index.y << " to " << to;
-    GUISquare *cut1 = (GUISquare *) this->grid->itemAt(7-index.x,index.y);
+    qDebug() << "some figure moving " << from.x << "x" << from.y << " to " << to.x << "x" << to.y;
+    //GUISquare *cut1 = (GUISquare *) this->grid->itemAt(7-index.x,index.y);
 
     //cut1->test = true;
     //this->scene->update();

@@ -41,7 +41,8 @@ void GUISquare::dropEvent(QGraphicsSceneDragDropEvent *event)
         dataStream >>  sourceIndex.y;
 
 
-        qDebug() << "POZADAVEK NA PRESUN Z " << sourceIndex.x << "x" << sourceIndex.y << " DO " << destinationIndex.x << "x" << destinationIndex.y;
+//        qDebug() << "POZADAVEK NA PRESUN Z " << sourceIndex.x << "x" << sourceIndex.y << " DO " << destinationIndex.x << "x" << destinationIndex.y;
+        emit wantMove(sourceIndex, destinationIndex);
 
         this->test = true;
         this->update();
@@ -89,5 +90,6 @@ Position GUISquare::getIndex()
 {
     return this->index;
 }
+
 
 

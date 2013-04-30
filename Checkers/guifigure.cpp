@@ -1,6 +1,6 @@
 #include "guifigure.h"
 
-GUIFigure::GUIFigure(GUISquare *parent) : GUISquare(parent)
+GUIFigure::GUIFigure(QGraphicsWidget *parent) : QGraphicsWidget(parent)
 {
     pressed = false;
     //setFlag(ItemIsMovable);

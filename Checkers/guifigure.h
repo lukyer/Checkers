@@ -10,12 +10,12 @@
 #include "guiboard.h"
 #include "guisquare.h"
 
-class GUIFigure : public GUISquare
+class GUIFigure : public QGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    GUIFigure(GUISquare *parent = 0);
+    GUIFigure(QGraphicsWidget *parent = 0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setType(BoardTypes);
 
@@ -33,8 +33,6 @@ protected:
 
 
 
-signals:
-    void wantMove(Position, QPointF);
 
     
 //public slots:

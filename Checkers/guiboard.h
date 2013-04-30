@@ -28,7 +28,7 @@ public:
     void redraw();
 
 public slots:
-    void figureMove(Position, QPointF);
+    void figureMove(Position, Position);
 
 private:
     Checkers *checkers = null;
