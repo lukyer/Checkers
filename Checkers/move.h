@@ -6,7 +6,11 @@
 class Move
 {
 public:
-    Move();
+    Move(); // debug.. delete?
+    Move(Position, Position);
+    Position getFrom();
+    Position getTo();
+    bool operator==(const Move &x);
 private:
     Position from;
     Position to;
