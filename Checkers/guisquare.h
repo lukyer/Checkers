@@ -3,6 +3,9 @@
 
 #include <QtGui>
 #include "common.h"
+#include "guifigure.h"
+
+class GUIFigure;    // kvuli kruhove zavislosti GUIFigure <> GUISquare
 
 class GUISquare : public QGraphicsWidget
 {
@@ -17,6 +20,13 @@ public:
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     ~GUISquare();
 
+    void setFigure(GUIFigure *);
+    GUIFigure * getFigure();
+    void hideFigure();
+    void showFigure();
+    void addFigure(BoardTypes);
+    void delFigure();
+
 
     void setIndex(Position);
     Position getIndex();
@@ -25,6 +35,9 @@ public:
 
 protected:
     Position index;
+
+private:
+    GUIFigure *figure;
 
 signals:
     void wantMove(Position, Position);
