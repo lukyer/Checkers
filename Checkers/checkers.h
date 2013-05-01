@@ -2,6 +2,7 @@
 #define CHECKERS_H
 
 #include <QVector>
+#include <QDebug>
 #include <player.h>
 #include <move.h>
 #include <common.h>
@@ -21,13 +22,28 @@ class Checkers
 {
 public:
     Checkers();
+    void setPlayerW(Player *);
+    void setPlayerB(Player *);
+    Player *getPlayerW();
+    Player *getPlayerB();
+    Players getOnTurn();
+    BoardTypes getBoard(int x,int y);
+
+    void play();
+    BoardTypes board[8][8];
+
 private:
-    int board[8][8];
+
     QVector<Move> moves;
-    Player playerA;
-    Player playerB;
+    Player *playerW;
+    Player *playerB;
+    Players onturn;
+
     void resetBoard();
     void debugBoard();
+    void makeMove(Position);
+
+
 };
 
 #endif // CHECKERS_H
