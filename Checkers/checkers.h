@@ -41,6 +41,7 @@ public:
     void setPlayerW(Player *);
     void setPlayerB(Player *);
     void play();
+    void resetGame();
     BoardTypes getBoard(int x,int y);
     Player *getPlayerOnTurn();
 
@@ -55,6 +56,7 @@ private:
     Player *getPlayerW();
     Player *getPlayerB();
     Players getOnTurn();
+    void gameOver();
 
 
 

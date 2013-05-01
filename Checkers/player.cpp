@@ -33,6 +33,12 @@ void Player::clearReady() {
     this->moveReady = false;
 }
 
+bool Player::canMove()
+{
+    // Projit possible moves a pokud = 0 tak cant move!
+    return true;
+}
+
 void Player::setReady() {
     this->moveReady = true;
 }

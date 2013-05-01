@@ -29,11 +29,13 @@ public:
 public slots:
     void figureMove(Position, Position);
     void redraw();
+    void timeout();
 
 private:
     Checkers *checkers = null;
     QGraphicsScene *scene;
     QGraphicsGridLayout *grid;
+
 
 
 
