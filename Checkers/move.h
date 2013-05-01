@@ -1,6 +1,7 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+#include <QDebug>
 #include "common.h"
 
 class Move

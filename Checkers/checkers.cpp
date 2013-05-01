@@ -1,53 +1,17 @@
 #include "checkers.h"
-<<<<<<< HEAD
-#include <QDebug>
-#include <algorithm>
-#include <iterator>
-=======
->>>>>>> c4575145f40a15276eb2ef35cc373413fab07491
+
+
+
 
 Checkers::Checkers()
 {
     resetBoard();
-<<<<<<< HEAD
-    /*debug testing*/
-        debugBoard();
-
-        QVector<Move> possiblemoves;
-        Position first, second;
-        first.x=6;
-        first.y=4;
-        second.x=7;
-        second.y=5;
-
-        Move move1(first,second);
-        first.x=7;
-        first.y=5;
-        second.x=3;
-        second.y=1;
-
-        Move move2(first,second);
-        onTurn = PLAYER_W;
-
-        possiblemoves = getPossibleMoves(onTurn);
-        debugMoveVec(possiblemoves);
-
-        moveFigure(move1);
-        possiblemoves = getPossibleMoves(onTurn);
-        debugMoveVec(possiblemoves);
-
-        moveFigure(move2);
-
-    /*endof debug*/
-=======
-    debugBoard();
-    this->onturn = PLAYER_W;    // white starts
+    this->onTurn = PLAYER_W;    // white starts
 }
 
 BoardTypes Checkers::getBoard(int x, int y) {
     if (x < 0 || x > 7 || y < 0 || y > 7) throw "Coords not valid.";
     return this->board[x][y];
->>>>>>> c4575145f40a15276eb2ef35cc373413fab07491
 }
 
 void Checkers::resetBoard() {
@@ -87,9 +51,12 @@ bool Checkers::moveFigure(Move move) {
 
     QVector<Move> possibleMoves;
     std::pair<int,Position> takenFigure;
-    int tempFigure;
+    BoardTypes tempFigure;
 
     possibleMoves = getPossibleMoves(onTurn);
+
+    debugMoveVec(possibleMoves);
+
     if (possibleMoves.contains(move)) {// po validnim tahu pridame move a zmenime board
 
         takenFigure = getTakenFigure(move);
@@ -110,6 +77,7 @@ bool Checkers::moveFigure(Move move) {
 
     } else {
         qDebug() << "nevalidni tah";
+        return false;
     }
 
 
@@ -534,21 +502,28 @@ bool Checkers::isValidMove(Move move) {
 }
 
 void Checkers::makeMove(Position coords) {
-    qDebug() << "I just moved ... " << this->onturn << " x : " << coords.x << " y : " << coords.y;
+    qDebug() << "I just moved ... " << this->onTurn << " x : " << coords.x << " y : " << coords.y;
 }
 
 void Checkers::play() {
+    qDebug() << "ON TURN: " << this->onTurn;
     while (1) {
-        if (this->onturn == PLAYER_W) {
+
+        if (this->onTurn == PLAYER_W) {
             int can = this->playerW->isReady();
             if (can == false) {
                 // Cant move right now (RealPlayer / Network async)
                 return; // sleep
             } else {
-                Position coords = this->playerW->getMove();
+                Move move = this->playerW->getMove();
+                qDebug() << "PLAYER WHITE HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
+
                 this->playerW->clearReady();
-                this->makeMove(coords);
-                this->onturn = PLAYER_B;
+                if (!this->moveFigure(move)) {
+                    continue;
+                }
+
+                this->onTurn = PLAYER_B;
             }
         } else {
             int can = this->playerB->isReady();
@@ -556,10 +531,16 @@ void Checkers::play() {
                 // Cant move right now (RealPlayer / Network async)
                 return; // sleep
             } else {
-                Position coords = this->playerB->getMove();
+
+                Move move = this->playerB->getMove();
+                qDebug() << "PLAYER BLACK HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
+
                 this->playerB->clearReady();
-                this->makeMove(coords);
-                this->onturn = PLAYER_W;
+                if (!this->moveFigure(move)) {
+                    continue;
+                }
+
+                this->onTurn = PLAYER_W;
             }
         }
     }
@@ -583,5 +564,15 @@ Player *Checkers::getPlayerB() {
 }
 
 Players Checkers::getOnTurn() {
-    return this->onturn;
+    return this->onTurn;
+}
+
+Player * Checkers::getPlayerOnTurn() {
+    if (this->getOnTurn() == PLAYER_W) {
+        return this->playerW;
+    } else if (this->getOnTurn() == PLAYER_B){
+        return this->playerB;
+    } else {
+        return null;
+    }
 }

@@ -17,11 +17,11 @@ void Player::setType(PlayerType type) {
     this->type = type;
 }
 
-Position Player::getMove() {
+Move Player::getMove() {
     return movePosition;   // return prepared move coords
 }
 
-void Player::setMove(Position coords) {
+void Player::setMove(Move coords) {
     this->movePosition = coords;
 }
 

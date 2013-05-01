@@ -15,7 +15,7 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
     Player *player1 = new RealPlayer();
     player1->setName("lukyer");
 
-    Player *player2 = new AIPlayer();
+    Player *player2 = new RealPlayer();
     player2->setName("kulo");
 
     Checkers *game1 = new Checkers();
@@ -24,7 +24,11 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 
 
     ui->board->setCheckers(game1);
-    ui->board->redraw();
+    ui->board->redraw();    // must be done. Why?
+
+    QTimer *refresh = new QTimer(this);
+    connect(refresh, SIGNAL(timeout()), ui->board, SLOT(redraw()));
+    refresh->start(1000);
 
     game1->play();
     /*

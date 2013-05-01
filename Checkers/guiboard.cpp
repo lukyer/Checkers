@@ -23,6 +23,12 @@ GUIBoard::GUIBoard(QWidget *parent) : QGraphicsView(parent)
      grid->setVerticalSpacing(0);
 
 
+
+
+     QGraphicsWidget *form = new QGraphicsWidget;
+     form->setLayout(grid);
+     scene->addItem(form);
+
      this->setScene(scene);
 
 }
@@ -35,7 +41,25 @@ void GUIBoard::redraw() {
        Nicmene stejne se musi udelat nejake pomocne objekty, viz nize
     */
 
-    QGraphicsWidget *form = new QGraphicsWidget;
+
+
+
+
+    if (grid->count() == 64) {
+        for (int x = 0 ; x < 8 ; x++) {
+            for (int y = 0 ; y < 8 ; y++) {
+                GUISquare *oldItem = (GUISquare *)grid->itemAt(7-x, y);
+                if (oldItem) {
+                    grid->removeItem(oldItem);
+                    //oldItem->children()
+                    //delete oldItem;
+                    //oldItem->~QGraphicsLayoutItem();
+
+                }
+            }
+        }
+
+    }
 
     for (int x = 0 ; x < 8 ; x++) {
         for (int y = 0; y < 8 ; y++) {
@@ -55,6 +79,8 @@ void GUIBoard::redraw() {
             }
 
 
+
+
             grid->addItem(square, 7-x, y); // 7-x protoze kreslime zvrchu dolu, ale pole mame zdola nahoru
             // Aby figurka nemusela mit pristup k pianu (top objekt Checkers), tak jen od ni vyzvedavame signaly v pripade interakce
             connect(square, SIGNAL(wantMove(Position,Position)), this, SLOT(figureMove(Position,Position)));
@@ -65,10 +91,7 @@ void GUIBoard::redraw() {
 
 
 
-    form->setLayout(grid);
 
-
-    scene->addItem(form);
 
 }
 
@@ -77,6 +100,27 @@ void GUIBoard::redraw() {
 void GUIBoard::figureMove(Position from, Position to)
 {
     qDebug() << "some figure moving " << from.x << "x" << from.y << " to " << to.x << "x" << to.y;
+    Move change = Move(from, to);
+
+    //bool moved = this->checkers->moveFigure(change);
+    Player *turnPlayer = this->checkers->getPlayerOnTurn();
+    if (turnPlayer == null) throw "No player on turn!!!";
+    turnPlayer->setMove(change);
+    turnPlayer->setReady();
+    this->checkers->play();
+    this->redraw();
+
+    /*
+    if (moved) {
+        qDebug() << "IT IS OK";
+        this->redraw();
+        this->checkers->play();
+    } else {
+        qDebug() << "WRONG MOVE";
+    }
+    */
+
+
     //GUISquare *cut1 = (GUISquare *) this->grid->itemAt(7-index.x,index.y);
 
     //cut1->test = true;

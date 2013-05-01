@@ -25,15 +25,16 @@ public:
     explicit GUIBoard(QWidget *parent = 0);
     void setCheckers (Checkers *);
     Checkers *getCheckers();
-    void redraw();
 
 public slots:
     void figureMove(Position, Position);
+    void redraw();
 
 private:
     Checkers *checkers = null;
     QGraphicsScene *scene;
     QGraphicsGridLayout *grid;
+
 
 
     

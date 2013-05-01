@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <common.h>
+#include "move.h"
 
 
 class Player
@@ -14,9 +15,9 @@ public:
     virtual PlayerType getType();
     virtual QString getName();
     virtual bool move() = 0;
-    virtual Position getMove();
+    virtual Move getMove();
     virtual bool isReady();
-    virtual void setMove(Position);
+    virtual void setMove(Move);
     virtual void setReady();
     virtual void clearReady();
 
@@ -27,7 +28,7 @@ protected:
 private:
     PlayerType type = PLAYER_UNKNOWN;
     bool moveReady = false;
-    Position movePosition = {0,0};
+    Move movePosition;
 };
 
 #endif // PLAYER_H

@@ -15,6 +15,7 @@ public:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    ~GUISquare();
 
 
     void setIndex(Position);

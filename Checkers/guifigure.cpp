@@ -14,16 +14,26 @@ void GUIFigure::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     rec = QRectF(5,5,40,40);
 
     QColor color;
+    QBrush brush;
 
     if (this->type == FIGURE_W) {
         color = Qt::white;
+        brush.setStyle(Qt::SolidPattern);
     } else if (this->type == FIGURE_B) {
         color = Qt::black;
+        brush.setStyle(Qt::SolidPattern);
+    } else if (this->type == QUEEN_W) {
+        color = Qt::white;
+        brush.setStyle(Qt::Dense7Pattern);
+    } else if (this->type == QUEEN_B) {
+        color = Qt::black;
+        brush.setStyle(Qt::Dense7Pattern);
     }
 
 
 
-    QBrush brush(color);
+    brush.setColor(color);
+
 
 
 

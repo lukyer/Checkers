@@ -1,5 +1,4 @@
 #include "move.h"
-#include <QDebug>
 
 Move::Move()
 {

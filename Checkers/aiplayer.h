@@ -3,6 +3,8 @@
 
 #include "player.h"
 #include <QDebug>
+#include <QCoreApplication>
+#include <QTime>
 
 class AIPlayer : public Player
 {
@@ -10,7 +12,7 @@ public:
     AIPlayer();
     bool move() override;
     bool isReady();
-    Position getMove();
+    Move getMove();
 };
 
 #endif // AIPLAYER_H

@@ -16,3 +16,16 @@ zlepsit grafiku
 pixmapa pro figurky i pro drag potom
 at zmizi pri dragu z puvodni pozice
 udelat poradne to podbarvovani pri dragu
+
+refaktoring -> udelat tridu CHECKERS herni logika zvlast!!!
+
+PORESIT PAMET PRI PREKRESLOVANI AT SE NEDELA MILIARDA OBJEKTU !!! UVOLNOVAT NEJAK CHILD
+
+
+ukonceni hry se nema asi zacylkit hh
+jak ogbnovovat gui? timer? At se nezkurvi checkers cistota tridy pomoci signalu
+
+
+drag drop ikonky zmenit, 1985
+
+pri refresh->start(10); vznikne  artefakt kokot navic tam je

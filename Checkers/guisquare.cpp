@@ -3,6 +3,11 @@
 GUISquare::GUISquare(QGraphicsWidget *parent) : QGraphicsWidget(parent)
 {
     this->setAcceptDrops(true);
+    //qDebug() << "GUI SQUARE CONSTRUCTED";
+}
+
+GUISquare::~GUISquare() {
+    qDebug() << "GUI SQUARE DESTRUCTED";
 }
 
 QRectF GUISquare::boundingRect() const
