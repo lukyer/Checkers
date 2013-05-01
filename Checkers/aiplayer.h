@@ -12,7 +12,7 @@ public:
     AIPlayer();
     bool move() override;
     bool isReady();
-    Move getMove();
+    Move getMove();    
 };
 
 #endif // AIPLAYER_H

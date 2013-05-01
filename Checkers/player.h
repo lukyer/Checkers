@@ -20,6 +20,7 @@ public:
     virtual void setMove(Move);
     virtual void setReady();
     virtual void clearReady();
+    virtual bool canMove();
 
 protected:
     QString name;

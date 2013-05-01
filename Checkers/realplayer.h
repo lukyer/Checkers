@@ -13,7 +13,6 @@ class RealPlayer :  public Player
 public:
     RealPlayer();
     bool move() override;
-    bool canMove();
 
 
 };

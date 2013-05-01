@@ -7,8 +7,9 @@
 #include <QPainter>
 
 #include "common.h"
-#include "guiboard.h"
 #include "guisquare.h"
+
+class GUISquare;    // kvuli kruhove zavislosti GUIFigure <> GUISquare
 
 class GUIFigure : public QGraphicsWidget
 {
@@ -18,6 +19,7 @@ public:
     GUIFigure(QGraphicsWidget *parent = 0);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setType(BoardTypes);
+    QRectF boundingRect() const;
 
 
 private:
@@ -25,7 +27,7 @@ private:
     Position position;
     BoardTypes type = NONE;
     QPointF lastPosition;
-
+    QRectF bound;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

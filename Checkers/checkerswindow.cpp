@@ -12,8 +12,9 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 
 
 
-    Player *player1 = new RealPlayer();
+    Player *player1 = new AIPlayer();
     player1->setName("lukyer");
+    //player1->setCheckersGame(); pro ziskavani possible tahu ... pokud uz neni zadny possible tah, oznamit prohru
 
     Player *player2 = new RealPlayer();
     player2->setName("kulo");
@@ -24,11 +25,18 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 
 
     ui->board->setCheckers(game1);
-    ui->board->redraw();    // must be done. Why?
+
 
     QTimer *refresh = new QTimer(this);
     connect(refresh, SIGNAL(timeout()), ui->board, SLOT(redraw()));
     refresh->start(1000);
+
+    /*
+    QTimer *timeout = new QTimer(this);
+    connect(timeout, SIGNAL(timeout()), ui->board, SLOT(timeout()));
+    timeout->start(5000);
+*/
+
 
     game1->play();
     /*

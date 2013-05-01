@@ -3,11 +3,48 @@
 GUISquare::GUISquare(QGraphicsWidget *parent) : QGraphicsWidget(parent)
 {
     this->setAcceptDrops(true);
+    figure = null;
     //qDebug() << "GUI SQUARE CONSTRUCTED";
 }
 
 GUISquare::~GUISquare() {
     qDebug() << "GUI SQUARE DESTRUCTED";
+}
+
+
+
+void GUISquare::setFigure(GUIFigure * fig)
+{
+    this->figure = fig;
+}
+
+GUIFigure *GUISquare::getFigure()
+{
+    return this->figure;
+}
+
+void GUISquare::hideFigure()
+{
+    //
+}
+
+void GUISquare::showFigure()
+{
+    //
+}
+
+void GUISquare::addFigure(BoardTypes type)
+{
+    figure = new GUIFigure(this);
+    figure->setType(type);
+    figure->setParent(this);    // musime nastavit parent i pomoci teto metody, konstruktor nestaci pro odkazovani se na rodice! Pro vykreslovani uvnitr staci.
+}
+
+void GUISquare::delFigure()
+{
+    if (figure == null) return;
+    delete figure;
+    figure = null;
 }
 
 QRectF GUISquare::boundingRect() const
@@ -23,7 +60,7 @@ void GUISquare::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (test) {
         color = QColor(Qt::red);
     } else {
-        color = QColor(Qt::blue);
+        color = QColor(Qt::gray);
     }
 
     QBrush brush(color);
@@ -33,7 +70,6 @@ void GUISquare::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void GUISquare::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
-
 
 
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -49,7 +85,7 @@ void GUISquare::dropEvent(QGraphicsSceneDragDropEvent *event)
 //        qDebug() << "POZADAVEK NA PRESUN Z " << sourceIndex.x << "x" << sourceIndex.y << " DO " << destinationIndex.x << "x" << destinationIndex.y;
         emit wantMove(sourceIndex, destinationIndex);
 
-        this->test = true;
+        this->test = false;
         this->update();
 
         event->accept();

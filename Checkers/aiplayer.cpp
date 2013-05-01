@@ -17,7 +17,7 @@ bool AIPlayer::isReady() {
 Move AIPlayer::getMove() {
     /*QTime dieTime= QTime::currentTime().addSecs(1);
         while( QTime::currentTime() < dieTime )
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 1000);*/
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 1000);*/    
     return Move({qrand() % 8, qrand() % 8},{qrand() % 8, qrand() % 8});
 
 }
