@@ -4,6 +4,7 @@ GUIFigure::GUIFigure(QGraphicsWidget *parent) : QGraphicsWidget(parent)
 {
     pressed = false;
     //setFlag(ItemIsMovable);
+    this->bound = QRectF(0,0,50,50);
 
 }
 
@@ -28,6 +29,8 @@ void GUIFigure::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     } else if (this->type == QUEEN_B) {
         color = Qt::black;
         brush.setStyle(Qt::Dense7Pattern);
+    } else {
+        return;
     }
 
 
@@ -50,6 +53,11 @@ void GUIFigure::setType(BoardTypes type)
     this->type = type;
 }
 
+QRectF GUIFigure::boundingRect() const
+{
+    return this->bound;
+}
+
 
 
 
@@ -57,11 +65,12 @@ void GUIFigure::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
 
+
+    qDebug() << "FIGURE CLICKED";
+
+
+
     QPixmap pixmap = QPixmap();
-
-
-
-
     GUISquare *parent;  // parent has index!
     parent = (GUISquare *) this->parent();
 
@@ -86,14 +95,7 @@ void GUIFigure::mousePressEvent(QGraphicsSceneMouseEvent *event)
    drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
 
-return;
-
-
-
-
-
-
-
+/*
 
     pressed = true;
     lastPosition = this->pos();
@@ -108,15 +110,16 @@ return;
     //this->scene()->update();  muze pomoci
 
     update();
-    QGraphicsWidget::mousePressEvent(event);  // rethrow, important!
+    QGraphicsWidget::mousePressEvent(event);  // rethrow, important!*/
 
 }
 
 void GUIFigure::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "RELEASE";
+    return;
     if (this->parent() == 0) throw "Neni nastaveny rodic!";
-    ((GUISquare*) this->parent())->setZValue(0); // sniz z zpatky at muzou ostatni objekty prekryt pri drag
+    //((GUISquare*) this->parent())->setZValue(0); // sniz z zpatky at muzou ostatni objekty prekryt pri drag
 
 
 

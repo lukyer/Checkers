@@ -70,6 +70,12 @@ void Checkers::play() {
     while (1) {
 
         if (this->onTurn == PLAYER_W) {
+            bool canMove = this->playerB->canMove();
+            if (!canMove) {
+                // Hrac nemuze udelat zadny tah => prohral
+                this->gameOver();
+                return;
+            }
             int can = this->playerW->isReady();
             if (can == false) {
                 // Cant move right now (RealPlayer / Network async)
@@ -86,8 +92,14 @@ void Checkers::play() {
                 this->onTurn = PLAYER_B;
             }
         } else {
-            int can = this->playerB->isReady();
-            if (can == false) {
+            bool canMove = this->playerB->canMove();
+            if (!canMove) {
+                // Hrac nemuze udelat zadny tah => prohral
+                this->gameOver();
+                return;
+            }
+            bool isReady = this->playerB->isReady();
+            if (isReady == false) {
                 // Cant move right now (RealPlayer / Network async)
                 return; // sleep
             } else {
@@ -104,6 +116,14 @@ void Checkers::play() {
             }
         }
     }
+}
+
+void Checkers::resetGame()
+{
+    // Tady udelat prvotni inicializaci hry, connectnutych signalu, uvolneni ui atd
+    resetBoard();
+    onTurn = PLAYER_W;
+    play();
 }
 
 
@@ -127,12 +147,23 @@ Players Checkers::getOnTurn() {
     return this->onTurn;
 }
 
+void Checkers::gameOver()
+{
+    // Musi se zrusit connect signalu ktere spousti play() atd!
+    qDebug() << "********************";
+    qDebug() << "GAME IS OVER!";
+    if (this->playerW->canMove()) qDebug() << "PLAYER BLACK WIN " << this->playerB->getName();
+    if (this->playerB->canMove()) qDebug() << "PLAYER WHITE WIN " << this->playerW->getName();
+    qDebug() << "********************";
+}
+
 Player * Checkers::getPlayerOnTurn() {
     if (this->getOnTurn() == PLAYER_W) {
         return this->playerW;
     } else if (this->getOnTurn() == PLAYER_B){
         return this->playerB;
     } else {
+        throw "No player on turn !";
         return null;
     }
 }

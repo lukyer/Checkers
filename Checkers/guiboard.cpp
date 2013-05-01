@@ -31,6 +31,30 @@ GUIBoard::GUIBoard(QWidget *parent) : QGraphicsView(parent)
 
      this->setScene(scene);
 
+
+     /* Vygenerovat vsechny policka + vsechny figurky.
+        Pro kazde policko bude vygenerovana figurka (stejny pocet jako policek)
+        ale muze mit nastaveno dead, tzn ze se nevykresluje. Je to kvuli snadnemu
+        zobrazeni figurek v redraw() */
+
+     for (int x = 0 ; x < 8 ; x++) {
+         for (int y = 0; y < 8 ; y++) {
+
+             GUISquare *square = new GUISquare();  // reprezentuje graficky policko prazdne (obrys + drop eventy)
+             square->setIndex({x,y});
+
+                /*
+             GUIFigure *fig = new GUIFigure(square);    // DULEZITE: square je PARENT a tudiz se bude vykreslovat DO NEJ
+             fig->setType(NONE);
+             fig->setParent(square); // musime nastavit rodice, at muzeme pote na nej odkazovat. KONSTRUKTOR NESTACI
+                */
+             grid->addItem(square, 7-x, y); // 7-x protoze kreslime zvrchu dolu, ale pole mame zdola nahoru
+             // Aby figurka nemusela mit pristup k pianu (top objekt Checkers), tak jen od ni vyzvedavame signaly v pripade interakce
+             connect(square, SIGNAL(wantMove(Position,Position)), this, SLOT(figureMove(Position,Position)));
+
+         }
+     }
+
 }
 
 void GUIBoard::redraw() {
@@ -43,50 +67,17 @@ void GUIBoard::redraw() {
 
 
 
-
-
-    if (grid->count() == 64) {
-        for (int x = 0 ; x < 8 ; x++) {
-            for (int y = 0 ; y < 8 ; y++) {
-                GUISquare *oldItem = (GUISquare *)grid->itemAt(7-x, y);
-                if (oldItem) {
-                    grid->removeItem(oldItem);
-                    //oldItem->children()
-                    //delete oldItem;
-                    //oldItem->~QGraphicsLayoutItem();
-
-                }
-            }
-        }
-
-    }
-
     for (int x = 0 ; x < 8 ; x++) {
         for (int y = 0; y < 8 ; y++) {
             Position pos{x,y};
             BoardTypes squareType = checkers->getBoard(pos);
-            GUISquare *square = new GUISquare();  // reprezentuje graficky policko prazdne (obrys + drop eventy)
-            square->setIndex({x,y});
 
-            GUIFigure *fig;
+            GUISquare *square = (GUISquare *)grid->itemAt(7-x, y);
+            square->delFigure();    // uvolni figurku ktera je na policku ted, pokud nejaka
 
-            if (squareType == NONE) {
-                // Na tomto policku neni NIC, takze pridame pouze empty GUISquare (kvuli obrysu ktery tvori mrizku + drop eventu)
-            } else {
-                // Je tam figurka, takze pridame objekt figurky a NASTAVIME PARENT na prazdne policko
-                fig = new GUIFigure(square);    // DULEZITE: square je PARENT a tudiz se bude vykreslovat DO NEJ
-                fig->setType(squareType);
-                fig->setParent(square); // musime nastavit rodice, at muzeme pote na nej odkazovat. KONSTRUKTOR NESTACI
+            if (squareType != NONE) {
+                square->addFigure(squareType);  // pridej novou s timto typem
             }
-
-
-
-
-            grid->addItem(square, 7-x, y); // 7-x protoze kreslime zvrchu dolu, ale pole mame zdola nahoru
-            // Aby figurka nemusela mit pristup k pianu (top objekt Checkers), tak jen od ni vyzvedavame signaly v pripade interakce
-            connect(square, SIGNAL(wantMove(Position,Position)), this, SLOT(figureMove(Position,Position)));
-
-
         }
     }
 
@@ -94,6 +85,13 @@ void GUIBoard::redraw() {
 
 
 
+}
+
+void GUIBoard::timeout()
+{
+    qDebug() << " TIMEOOOOUT ";
+    this->checkers->resetGame();
+    this->redraw();
 }
 
 

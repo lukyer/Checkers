@@ -24,6 +24,7 @@ public:
     void setPlayerB(Player *);
     void play();
     BoardTypes getBoard(Position);
+    void resetGame();
     Player *getPlayerOnTurn();
 
 private:
@@ -31,6 +32,7 @@ private:
     Player *getPlayerW();
     Player *getPlayerB();
     Players getOnTurn();
+    void gameOver();
 
     QVector<Move> moves;
     Player *playerW;
