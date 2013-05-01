@@ -23,8 +23,13 @@ public:
     void setPlayerW(Player *);
     void setPlayerB(Player *);
     void play();
+<<<<<<< HEAD
     BoardTypes getBoard(Position);
     void resetGame();
+=======
+    void resetGame();
+    BoardTypes getBoard(int x,int y);
+>>>>>>> 9a59bfb22e39b3d08d4f45126e4d81b54d718524
     Player *getPlayerOnTurn();
 
 private:
@@ -33,6 +38,14 @@ private:
     Player *getPlayerB();
     Players getOnTurn();
     void gameOver();
+<<<<<<< HEAD
+=======
+
+
+
+
+    BoardTypes board[8][8];
+>>>>>>> 9a59bfb22e39b3d08d4f45126e4d81b54d718524
 
     QVector<Move> moves;
     Player *playerW;
