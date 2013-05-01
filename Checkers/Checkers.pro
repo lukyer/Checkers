@@ -20,7 +20,8 @@ SOURCES +=\
     guiboard.cpp \
     aiplayer.cpp \
     guifigure.cpp \
-    guisquare.cpp
+    guisquare.cpp \
+    checkersgame.cpp
 
 HEADERS  += \
     checkerswindow.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     guiboard.h \
     aiplayer.h \
     guifigure.h \
-    guisquare.h
+    guisquare.h \
+    checkersgame.h
 
 FORMS    += checkerswindow.ui
 

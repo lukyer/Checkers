@@ -63,7 +63,8 @@ void GUIBoard::redraw() {
 
     for (int x = 0 ; x < 8 ; x++) {
         for (int y = 0; y < 8 ; y++) {
-            BoardTypes squareType = checkers->getBoard(x,y);
+            Position pos{x,y};
+            BoardTypes squareType = checkers->getBoard(pos);
             GUISquare *square = new GUISquare();  // reprezentuje graficky policko prazdne (obrys + drop eventy)
             square->setIndex({x,y});
 
