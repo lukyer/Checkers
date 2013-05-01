@@ -10,21 +10,31 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    Checkers *game1 = new Checkers();
+    ui->board->setCheckers(game1);
 
 
-    Player *player1 = new AIPlayer();
-    player1->setName("lukyer");
-    //player1->setCheckersGame(); pro ziskavani possible tahu ... pokud uz neni zadny possible tah, oznamit prohru
+    Player *player1 = new RealPlayer();
+    game1->setPlayerW(player1);
+
 
     Player *player2 = new RealPlayer();
-    player2->setName("kulo");
-
-    Checkers *game1 = new Checkers();
-    game1->setPlayerW(player1);
     game1->setPlayerB(player2);
 
+    player1->setName("lukyer");
+    player1->setCheckersGame(ui->board->getCheckers()->getGame()); // pro ziskavani possible tahu ... pokud uz neni zadny possible tah, oznamit prohru
 
-    ui->board->setCheckers(game1);
+    player2->setName("kulo");
+    player2->setCheckersGame(ui->board->getCheckers()->getGame());
+
+
+
+
+
+
+
+
+
 
 
     QTimer *refresh = new QTimer(this);

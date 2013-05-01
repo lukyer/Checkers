@@ -4,6 +4,7 @@
 #include <QString>
 #include <common.h>
 #include "move.h"
+#include "checkersgame.h"
 
 
 class Player
@@ -20,10 +21,12 @@ public:
     virtual void setMove(Move);
     virtual void setReady();
     virtual void clearReady();
-    virtual bool canMove();
+    virtual bool canMove(PlayerColor);
+    void setCheckersGame(CheckersGame *game);
 
 protected:
     QString name;
+    CheckersGame *game;
 
 
 private:

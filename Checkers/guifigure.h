@@ -20,6 +20,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setType(BoardTypes);
     QRectF boundingRect() const;
+    void emitSignals(bool);
 
 
 private:
@@ -28,6 +29,7 @@ private:
     BoardTypes type = NONE;
     QPointF lastPosition;
     QRectF bound;
+    bool emitSignalsFlag;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

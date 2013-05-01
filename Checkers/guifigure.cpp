@@ -5,6 +5,7 @@ GUIFigure::GUIFigure(QGraphicsWidget *parent) : QGraphicsWidget(parent)
     pressed = false;
     //setFlag(ItemIsMovable);
     this->bound = QRectF(0,0,50,50);
+    this->emitSignalsFlag = true;
 
 }
 
@@ -58,12 +59,17 @@ QRectF GUIFigure::boundingRect() const
     return this->bound;
 }
 
+void GUIFigure::emitSignals(bool flag)
+{
+    this->emitSignalsFlag = flag;
+}
+
 
 
 
 void GUIFigure::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    if (this->emitSignalsFlag == false) return; // Pokud ma figurka vypnute interakce s okolim, napriklad kdyz skonci hra a zustaly figurky na hristi ale nema s nima jit nijak operovat, return ..
 
 
     qDebug() << "FIGURE CLICKED";
@@ -116,6 +122,8 @@ void GUIFigure::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GUIFigure::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (this->emitSignalsFlag == false) return;
+
     qDebug() << "RELEASE";
     return;
     if (this->parent() == 0) throw "Neni nastaveny rodic!";

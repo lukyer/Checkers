@@ -3,7 +3,7 @@
 Move::Move()
 {
     /*debug*/
-    qDebug() << "Debug: constructing Move without parameters";
+    //qDebug() << "Debug: constructing Move without parameters";
     /*endof debug*/
 
 }

@@ -7,6 +7,7 @@ Checkers::Checkers()
 {
     this->game = new CheckersGame();
     this->onTurn = PLAYER_W;    // white starts
+    this->gameOver = false; // TODO: dokud nezacne hra, je povazovana za ukoncenou
 }
 
 BoardTypes Checkers::getBoard(Position pos) {
@@ -70,10 +71,10 @@ void Checkers::play() {
     while (1) {
 
         if (this->onTurn == PLAYER_W) {
-            bool canMove = this->playerB->canMove();
+            bool canMove = this->playerB->canMove(PLAYER_W);
             if (!canMove) {
                 // Hrac nemuze udelat zadny tah => prohral
-                this->gameOver();
+                this->endGame(PLAYER_B); // Black vyhral
                 return;
             }
             int can = this->playerW->isReady();
@@ -92,10 +93,10 @@ void Checkers::play() {
                 this->onTurn = PLAYER_B;
             }
         } else {
-            bool canMove = this->playerB->canMove();
+            bool canMove = this->playerB->canMove(PLAYER_B);
             if (!canMove) {
                 // Hrac nemuze udelat zadny tah => prohral
-                this->gameOver();
+                this->endGame(PLAYER_W); // White vyhral
                 return;
             }
             bool isReady = this->playerB->isReady();
@@ -121,8 +122,9 @@ void Checkers::play() {
 void Checkers::resetGame()
 {
     // Tady udelat prvotni inicializaci hry, connectnutych signalu, uvolneni ui atd
-    resetBoard();
+    game->resetBoard();
     onTurn = PLAYER_W;
+    gameOver = false;
     play();
 }
 
@@ -143,18 +145,20 @@ Player *Checkers::getPlayerB() {
     return this->playerB;
 }
 
-Players Checkers::getOnTurn() {
+PlayerColor Checkers::getOnTurn() {
     return this->onTurn;
 }
 
-void Checkers::gameOver()
+void Checkers::endGame(PlayerColor winner)
 {
     // Musi se zrusit connect signalu ktere spousti play() atd!
     qDebug() << "********************";
     qDebug() << "GAME IS OVER!";
-    if (this->playerW->canMove()) qDebug() << "PLAYER BLACK WIN " << this->playerB->getName();
-    if (this->playerB->canMove()) qDebug() << "PLAYER WHITE WIN " << this->playerW->getName();
+    if (winner == PLAYER_B) qDebug() << "PLAYER BLACK WIN " << this->playerB->getName();
+    if (winner == PLAYER_W) qDebug() << "PLAYER WHITE WIN " << this->playerW->getName();
+    if (winner == NONE) qDebug() << "!!!!!!!!!!!! NIKDO NEVYHRAL??? !!!!!!!!!!!!!!!!";
     qDebug() << "********************";
+    gameOver = true;
 }
 
 Player * Checkers::getPlayerOnTurn() {
@@ -167,3 +171,14 @@ Player * Checkers::getPlayerOnTurn() {
         return null;
     }
 }
+
+CheckersGame *Checkers::getGame()
+{
+    return this->game;
+}
+
+bool Checkers::isGameOver()
+{
+    return this->gameOver;
+}
+

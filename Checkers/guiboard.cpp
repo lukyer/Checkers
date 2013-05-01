@@ -77,6 +77,10 @@ void GUIBoard::redraw() {
 
             if (squareType != NONE) {
                 square->addFigure(squareType);  // pridej novou s timto typem
+                if (checkers->isGameOver()) {
+                    // Pokud uz skoncila hra, nastavime vsem figurkam at neemituji signaly drag atd.
+                    square->emitSignals(false);
+                }
             }
         }
     }

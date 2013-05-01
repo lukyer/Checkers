@@ -26,19 +26,22 @@ public:
     BoardTypes getBoard(Position);
     void resetGame();
     Player *getPlayerOnTurn();
+    CheckersGame *getGame();
+    bool isGameOver();
 
 private:
 
     Player *getPlayerW();
     Player *getPlayerB();
-    Players getOnTurn();
-    void gameOver();
+    PlayerColor getOnTurn();
+    void endGame(PlayerColor);
 
     QVector<Move> moves;
     Player *playerW;
     Player *playerB;
-    Players onTurn;
+    PlayerColor onTurn;
     CheckersGame *game;
+    bool gameOver;
 
 
     void makeMove(Position); // debug zatim, smazat

@@ -4,6 +4,7 @@ GUISquare::GUISquare(QGraphicsWidget *parent) : QGraphicsWidget(parent)
 {
     this->setAcceptDrops(true);
     figure = null;
+    emitSignalsFlag = true;
     //qDebug() << "GUI SQUARE CONSTRUCTED";
 }
 
@@ -31,6 +32,14 @@ void GUISquare::hideFigure()
 void GUISquare::showFigure()
 {
     //
+}
+
+void GUISquare::emitSignals(bool flag)
+{
+    this->emitSignalsFlag = flag;
+    // Pokud chceme enable/disable interakci policka, plati to i na jeho pripadnou figurku!
+    if (figure != null) figure->emitSignals(flag);
+
 }
 
 void GUISquare::addFigure(BoardTypes type)
@@ -107,16 +116,19 @@ void GUISquare::dropEvent(QGraphicsSceneDragDropEvent *event)
 
 void GUISquare::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
+    if (this->emitSignalsFlag == false) return; // Pokud ma figurka vypnute interakce s okolim, napriklad kdyz skonci hra a zustaly figurky na hristi ale nema s nima jit nijak operovat, return ..
     this->test = true;
     this->update();
 }
 
 void GUISquare::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    if (this->emitSignalsFlag == false) return; // Pokud ma figurka vypnute interakce s okolim, napriklad kdyz skonci hra a zustaly figurky na hristi ale nema s nima jit nijak operovat, return ..
 }
 
 void GUISquare::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    if (this->emitSignalsFlag == false) return; // Pokud ma figurka vypnute interakce s okolim, napriklad kdyz skonci hra a zustaly figurky na hristi ale nema s nima jit nijak operovat, return ..
     this->test = false;
     this->update();
 }

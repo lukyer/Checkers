@@ -10,7 +10,7 @@ void CheckersGame::resetBoard() {
     memcpy(&board, BOARD_INITIAL, sizeof(BOARD_INITIAL));
 }
 
-QVector<Move> CheckersGame::getPossibleMoves(Players player) {
+QVector<Move> CheckersGame::getPossibleMoves(PlayerColor player) {
 
     QVector<Move> possibleMoves;
     QVector<Move> possibleJumps;
@@ -82,6 +82,7 @@ QVector<Move> CheckersGame::getPossibleMoves(Players player) {
                                   to.x = to.x + diagDir[dir][0];
                                   to.y = to.y + diagDir[dir][1];
                                   }
+                                  break;
                               } else {
                                   break;
                               }
@@ -148,6 +149,7 @@ QVector<Move> CheckersGame::getPossibleMoves(Players player) {
                                   to.x = to.x + diagDir[dir][0];
                                   to.y = to.y + diagDir[dir][1];
                                   }
+                                  break;
                               } else {
                                   break;
                               }
@@ -185,7 +187,6 @@ bool CheckersGame::updateBoard(Move move) {
 
 
     tempFigure = board[move.getFrom().x][move.getFrom().y];
-    board[move.getFrom().x][move.getFrom().y] = NONE;
 
     qDebug() << "taken:" << takenFigure.first << takenFigure.second.x << takenFigure.second.y;
 
@@ -196,6 +197,8 @@ bool CheckersGame::updateBoard(Move move) {
     if (!changeToQueen(move)) {
         board[move.getTo().x][move.getTo().y] = tempFigure;
     }
+
+    board[move.getFrom().x][move.getFrom().y] = NONE;
 
 
     return true;

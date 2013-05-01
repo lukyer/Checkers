@@ -27,6 +27,8 @@ public:
     void addFigure(BoardTypes);
     void delFigure();
 
+    void emitSignals(bool);
+
 
     void setIndex(Position);
     Position getIndex();
@@ -38,6 +40,7 @@ protected:
 
 private:
     GUIFigure *figure;
+    bool emitSignalsFlag;
 
 signals:
     void wantMove(Position, Position);
