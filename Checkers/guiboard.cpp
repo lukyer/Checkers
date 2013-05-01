@@ -69,13 +69,9 @@ void GUIBoard::redraw() {
 
     for (int x = 0 ; x < 8 ; x++) {
         for (int y = 0; y < 8 ; y++) {
-<<<<<<< HEAD
             Position pos{x,y};
             BoardTypes squareType = checkers->getBoard(pos);
 
-=======
-            BoardTypes squareType = checkers->getBoard(x,y);
->>>>>>> 9a59bfb22e39b3d08d4f45126e4d81b54d718524
             GUISquare *square = (GUISquare *)grid->itemAt(7-x, y);
             square->delFigure();    // uvolni figurku ktera je na policku ted, pokud nejaka
 
