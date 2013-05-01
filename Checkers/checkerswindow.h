@@ -2,6 +2,7 @@
 #define CHECKERSWINDOW_H
 
 #include <QMainWindow>
+#include "realplayer.h"
 
 namespace Ui {
 class CheckersWindow;

@@ -1,11 +1,15 @@
 #include "checkers.h"
+<<<<<<< HEAD
 #include <QDebug>
 #include <algorithm>
 #include <iterator>
+=======
+>>>>>>> c4575145f40a15276eb2ef35cc373413fab07491
 
 Checkers::Checkers()
 {
     resetBoard();
+<<<<<<< HEAD
     /*debug testing*/
         debugBoard();
 
@@ -35,6 +39,15 @@ Checkers::Checkers()
         moveFigure(move2);
 
     /*endof debug*/
+=======
+    debugBoard();
+    this->onturn = PLAYER_W;    // white starts
+}
+
+BoardTypes Checkers::getBoard(int x, int y) {
+    if (x < 0 || x > 7 || y < 0 || y > 7) throw "Coords not valid.";
+    return this->board[x][y];
+>>>>>>> c4575145f40a15276eb2ef35cc373413fab07491
 }
 
 void Checkers::resetBoard() {
@@ -518,4 +531,57 @@ bool Checkers::isValidMove(Move move) {
     }*/
 
     return true;
+}
+
+void Checkers::makeMove(Position coords) {
+    qDebug() << "I just moved ... " << this->onturn << " x : " << coords.x << " y : " << coords.y;
+}
+
+void Checkers::play() {
+    while (1) {
+        if (this->onturn == PLAYER_W) {
+            int can = this->playerW->isReady();
+            if (can == false) {
+                // Cant move right now (RealPlayer / Network async)
+                return; // sleep
+            } else {
+                Position coords = this->playerW->getMove();
+                this->playerW->clearReady();
+                this->makeMove(coords);
+                this->onturn = PLAYER_B;
+            }
+        } else {
+            int can = this->playerB->isReady();
+            if (can == false) {
+                // Cant move right now (RealPlayer / Network async)
+                return; // sleep
+            } else {
+                Position coords = this->playerB->getMove();
+                this->playerB->clearReady();
+                this->makeMove(coords);
+                this->onturn = PLAYER_W;
+            }
+        }
+    }
+}
+
+
+void Checkers::setPlayerW(Player * p) {
+    this->playerW = p;
+}
+
+void Checkers::setPlayerB(Player * p) {
+    this->playerB = p;
+}
+
+Player * Checkers::getPlayerW() {
+    return this->playerW;
+}
+
+Player *Checkers::getPlayerB() {
+    return this->playerB;
+}
+
+Players Checkers::getOnTurn() {
+    return this->onturn;
 }

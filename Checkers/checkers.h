@@ -2,6 +2,7 @@
 #define CHECKERS_H
 
 #include <QVector>
+#include <QDebug>
 #include <player.h>
 #include <move.h>
 #include <common.h>
@@ -32,6 +33,7 @@ class Checkers
 {
 public:
     Checkers();
+<<<<<<< HEAD
     bool moveFigure(Move);
     QVector<Move> getPossibleMoves(int player);
 private:
@@ -48,6 +50,28 @@ private:
     bool inBoard(Position);
     std::pair<int, Position> isOnDiagonal(Position,Position); // nepouzivam
     std::pair<int, Position> getTakenFigure(Move); // nepouzivam
+=======
+    void setPlayerW(Player *);
+    void setPlayerB(Player *);
+    Player *getPlayerW();
+    Player *getPlayerB();
+    Players getOnTurn();
+    BoardTypes getBoard(int x,int y);
+
+    void play();
+    BoardTypes board[8][8];
+
+private:
+
+    QVector<Move> moves;
+    Player *playerW;
+    Player *playerB;
+    Players onturn;
+
+    void resetBoard();
+    void debugBoard();
+    void makeMove(Position);
+>>>>>>> c4575145f40a15276eb2ef35cc373413fab07491
 
 
 };
