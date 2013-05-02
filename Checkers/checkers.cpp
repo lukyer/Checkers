@@ -7,7 +7,8 @@ Checkers::Checkers()
 {
     this->game = new CheckersGame();
     this->onTurn = PLAYER_W;    // white starts
-    this->gameOver = false; // TODO: dokud nezacne hra, je povazovana za ukoncenou
+    this->gameOver = true; // TODO: dokud nezacne hra, je povazovana za ukoncenou
+    this->net = new Network();
 }
 
 BoardTypes Checkers::getBoard(Position pos) {
@@ -69,9 +70,8 @@ void Checkers::makeMove(Position coords) {
 void Checkers::play() {
     qDebug() << "ON TURN: " << this->onTurn;
     while (1) {
-
         if (this->onTurn == PLAYER_W) {
-            bool canMove = this->playerB->canMove(PLAYER_W);
+            bool canMove = this->playerW->canMove();
             if (!canMove) {
                 // Hrac nemuze udelat zadny tah => prohral
                 this->endGame(PLAYER_B); // Black vyhral
@@ -83,17 +83,23 @@ void Checkers::play() {
                 return; // sleep
             } else {
                 Move move = this->playerW->getMove();
-                qDebug() << "PLAYER WHITE HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
 
                 this->playerW->clearReady();
                 if (!this->moveFigure(move)) {
                     continue;
                 }
 
+                // Tah se povedl, je nutne zkontrolovat, jestli muj oponent neni Network. Pokud ano, musim mu poslat tento tah po siti!
+                if (this->playerB->getType() == PLAYER_NETWORK) {
+                    this->net->sendMove(move);
+                }
+
+                qDebug() << "PLAYER WHITE HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
+
                 this->onTurn = PLAYER_B;
             }
         } else {
-            bool canMove = this->playerB->canMove(PLAYER_B);
+            bool canMove = this->playerB->canMove();
             if (!canMove) {
                 // Hrac nemuze udelat zadny tah => prohral
                 this->endGame(PLAYER_W); // White vyhral
@@ -104,14 +110,19 @@ void Checkers::play() {
                 // Cant move right now (RealPlayer / Network async)
                 return; // sleep
             } else {
-
-                Move move = this->playerB->getMove();
-                qDebug() << "PLAYER BLACK HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
+                Move move = this->playerB->getMove();                
 
                 this->playerB->clearReady();
                 if (!this->moveFigure(move)) {
                     continue;
                 }
+
+                // Tah se povedl, je nutne zkontrolovat, jestli muj oponent neni Network. Pokud ano, musim mu poslat tento tah po siti!
+                if (this->playerW->getType() == PLAYER_NETWORK) {
+                    this->net->sendMove(move);
+                }
+
+                qDebug() << "PLAYER BLACK HAS TURNED : " << move.getFrom().x << "x" << move.getFrom().y << "   to    " << move.getTo().x << "x" << move.getTo().y;
 
                 this->onTurn = PLAYER_W;
             }
@@ -122,6 +133,7 @@ void Checkers::play() {
 void Checkers::resetGame()
 {
     // Tady udelat prvotni inicializaci hry, connectnutych signalu, uvolneni ui atd
+    // Toto musi byt startovaci bod pro zahajeni hry, protoze se vynuluje priznak gameOver !! V play ho nulovat nemuzeme, protoze hra opravdu bude ukoncena a to by ji znova povolilo
     game->resetBoard();
     onTurn = PLAYER_W;
     gameOver = false;
@@ -129,19 +141,19 @@ void Checkers::resetGame()
 }
 
 
-void Checkers::setPlayerW(Player * p) {
+void Checkers::setPlayerW(AbstractPlayer * p) {
     this->playerW = p;
 }
 
-void Checkers::setPlayerB(Player * p) {
+void Checkers::setPlayerB(AbstractPlayer * p) {
     this->playerB = p;
 }
 
-Player * Checkers::getPlayerW() {
+AbstractPlayer * Checkers::getPlayerW() {
     return this->playerW;
 }
 
-Player *Checkers::getPlayerB() {
+AbstractPlayer *Checkers::getPlayerB() {
     return this->playerB;
 }
 
@@ -161,7 +173,7 @@ void Checkers::endGame(PlayerColor winner)
     gameOver = true;
 }
 
-Player * Checkers::getPlayerOnTurn() {
+AbstractPlayer * Checkers::getPlayerOnTurn() {
     if (this->getOnTurn() == PLAYER_W) {
         return this->playerW;
     } else if (this->getOnTurn() == PLAYER_B){
@@ -181,4 +193,10 @@ bool Checkers::isGameOver()
 {
     return this->gameOver;
 }
+
+Network *Checkers::getNetwork()
+{
+    return this->net;
+}
+
 

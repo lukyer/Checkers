@@ -92,7 +92,8 @@ void GUISquare::dropEvent(QGraphicsSceneDragDropEvent *event)
 
 
 //        qDebug() << "POZADAVEK NA PRESUN Z " << sourceIndex.x << "x" << sourceIndex.y << " DO " << destinationIndex.x << "x" << destinationIndex.y;
-        emit wantMove(sourceIndex, destinationIndex);
+        Move move(sourceIndex, destinationIndex);
+        emit wantMove(move);
 
         this->test = false;
         this->update();

@@ -10,11 +10,12 @@
 #include <QGraphicsWidget>
 
 #include "common.h"
-#include "player.h"
+#include "abstractplayer.h"
 #include "realplayer.h"
 #include "checkers.h"
 #include "guisquare.h"
 #include "guifigure.h"
+#include "networkplayer.h"
 
 
 class GUIBoard : public QGraphicsView
@@ -27,9 +28,10 @@ public:
     Checkers *getCheckers();
 
 public slots:
-    void figureMove(Position, Position);
+    void figureMove(Move, PlayerType);
     void redraw();
     void timeout();
+    void settingsReceived(GameSettings);
 
 private:
     Checkers *checkers = null;

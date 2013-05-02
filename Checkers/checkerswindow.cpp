@@ -2,7 +2,9 @@
 #include "ui_checkerswindow.h"
 #include "checkers.h"
 #include "realplayer.h"
+#include "networkplayer.h"
 #include "guisquare.h"
+#include "networkplayer.h"
 
 CheckersWindow::CheckersWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,36 +12,30 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    Checkers *game1 = new Checkers();
-    ui->board->setCheckers(game1);
-
-
-    Player *player1 = new RealPlayer();
-    game1->setPlayerW(player1);
-
-
-    Player *player2 = new RealPlayer();
-    game1->setPlayerB(player2);
-
-    player1->setName("lukyer");
-    player1->setCheckersGame(ui->board->getCheckers()->getGame()); // pro ziskavani possible tahu ... pokud uz neni zadny possible tah, oznamit prohru
-
-    player2->setName("kulo");
-    player2->setCheckersGame(ui->board->getCheckers()->getGame());
+    checkers = new Checkers();
+    ui->board->setCheckers(checkers);
 
 
 
 
 
+    /* Startuju network hrace */
+    // Musim zajistit at ma naplnene move vcas (tj jak prijdou po siti)
+    // V teto situaci zatim ja chci hrat, ja jsem iniciator a tudiz ten druhy clovek na siti je SERVER
 
+    // tady muzu zachytit emitnuty signal connectServerFailed pro nejaky progress zobrazeni
 
+    /* *** */
 
-
-
+    connect(checkers->getNetwork(), SIGNAL(moveReady(Move, PlayerType)), ui->board, SLOT(figureMove(Move, PlayerType)));
+    connect(checkers->getNetwork(), SIGNAL(settingsReceived(GameSettings)), ui->board, SLOT(settingsReceived(GameSettings)));
 
     QTimer *refresh = new QTimer(this);
     connect(refresh, SIGNAL(timeout()), ui->board, SLOT(redraw()));
     refresh->start(1000);
+
+
+
 
     /*
     QTimer *timeout = new QTimer(this);
@@ -48,7 +44,7 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 */
 
 
-    game1->play();
+
     /*
 
     QGraphicsRectItem *aa = new QGraphicsRectItem(QRect(0,0,100,100));
@@ -87,4 +83,40 @@ CheckersWindow::CheckersWindow(QWidget *parent) :
 CheckersWindow::~CheckersWindow()
 {
     delete ui;
+}
+
+
+
+
+
+void CheckersWindow::on_actionPripoj_server_triggered()
+{
+    GameSettings settings;
+    settings.color = PLAYER_W; // pripojujici se ma vzdy hlavni slovo a jeho barva bude respektovana. Server bude mit opacnou!
+    settings.playerName = "lukyer";
+
+    checkers->getNetwork()->setMySettings(settings);
+    checkers->getNetwork()->connectServer("127.0.0.1", 5555);
+
+}
+
+void CheckersWindow::on_actionVytvor_server_triggered()
+{
+    GameSettings settings;
+    settings.color = PLAYER_W;
+    settings.playerName = "kulo";
+
+
+
+
+
+    checkers->getNetwork()->setMySettings(settings);
+    checkers->getNetwork()->establishServer();
+}
+
+void CheckersWindow::on_actionNov_triggered()
+{
+    QDialog *test = new QDialog(this, Qt::Popup);
+    // tady se musi podedit QDialog do naseho SettingsDialog a pak se bude otevirat / zavirat ...
+    test->open();
 }

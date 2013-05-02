@@ -34,6 +34,27 @@
      <height>29</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuSpust_server">
+    <property name="title">
+     <string>Hra</string>
+    </property>
+    <widget class="QMenu" name="menuPres_sit">
+     <property name="title">
+      <string>Síť</string>
+     </property>
+     <addaction name="actionVytvor_server"/>
+     <addaction name="actionPripoj_server"/>
+    </widget>
+    <widget class="QMenu" name="menuLokalne">
+     <property name="title">
+      <string>Lokálně</string>
+     </property>
+     <addaction name="actionNov"/>
+    </widget>
+    <addaction name="menuLokalne"/>
+    <addaction name="menuPres_sit"/>
+   </widget>
+   <addaction name="menuSpust_server"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -44,6 +65,27 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionPripoj_server">
+   <property name="text">
+    <string>Pripojit se </string>
+   </property>
+   <property name="toolTip">
+    <string>Pripoj server</string>
+   </property>
+  </action>
+  <action name="actionVytvor_server">
+   <property name="text">
+    <string>Zalozit hru</string>
+   </property>
+   <property name="toolTip">
+    <string>Vytvor server</string>
+   </property>
+  </action>
+  <action name="actionNov">
+   <property name="text">
+    <string>Nová</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

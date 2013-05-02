@@ -21,6 +21,17 @@ Position Move::getTo() {
     return to;
 }
 
+void Move::setFrom(Position from)
+{
+    this->from = from;
+}
+
+void Move::setTo(Position to)
+{
+    this->to = to;
+}
+
+
 bool Move::operator ==(const Move &mov) {
     if (this->from== mov.from && this->to==mov.to ) {
         return true;
