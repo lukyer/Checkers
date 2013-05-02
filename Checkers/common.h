@@ -18,6 +18,6 @@ struct Position {
 enum BoardTypes { NONE, FIGURE_W, FIGURE_B, QUEEN_W, QUEEN_B };
 enum PlayerColor { NOBODY, PLAYER_W, PLAYER_B };
 enum PlayerType { PLAYER_UNKNOWN, PLAYER_REAL, PLAYER_AI, PLAYER_NET };
-
+enum NotationType {STANDART,TEST,XML};
 
 #endif // COMMON_H

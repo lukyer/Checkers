@@ -20,11 +20,11 @@ const int BOARD_INITIAL[8][8] = {
 const int BOARD_INITIAL[8][8] = {
                                     {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE},
                                     {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE},
-                                    {NONE,NONE,FIGURE_W,NONE,NONE,NONE,NONE,NONE},
+                                    {NONE,NONE,NONE,NONE,NONE,NONE,FIGURE_W,NONE},
                                     {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE},
                                     {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE},
-                                    {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE},
-                                    {NONE,NONE,NONE,NONE,NONE,NONE,FIGURE_B,NONE},
+                                    {NONE,NONE,NONE,FIGURE_B,NONE,NONE,NONE,NONE},
+                                    {NONE,NONE,NONE,NONE,FIGURE_B,NONE,FIGURE_B,NONE},
                                     {NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
                                 };
 
@@ -34,7 +34,7 @@ public:
     CheckersGame();
     QVector<Move> getPossibleMoves(PlayerColor);
     BoardTypes getBoard(Position);
-    bool updateBoard(Move);
+    Move updateBoard(Move);
     void resetBoard();
 
 private:

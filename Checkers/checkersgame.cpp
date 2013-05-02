@@ -178,17 +178,19 @@ BoardTypes CheckersGame::getBoard(Position pos)
 
 
 
-bool CheckersGame::updateBoard(Move move) {
+Move CheckersGame::updateBoard(Move move) {
 
     std::pair<BoardTypes,Position> takenFigure;
     BoardTypes tempFigure;
 
     takenFigure = getTakenFigure(move);
 
+    move.setTakenFigure(takenFigure);
+
 
     tempFigure = board[move.getFrom().x][move.getFrom().y];
 
-    qDebug() << "taken:" << takenFigure.first << takenFigure.second.x << takenFigure.second.y;
+    qDebug() << "taken:" << takenFigure.first << takenFigure.second.x << ":" << takenFigure.second.y;
 
     if (takenFigure.first > 0) {
         board[takenFigure.second.x][takenFigure.second.y] = NONE;
@@ -201,7 +203,7 @@ bool CheckersGame::updateBoard(Move move) {
     board[move.getFrom().x][move.getFrom().y] = NONE;
 
 
-    return true;
+    return move;
 }
 
 bool CheckersGame::inBoard(Position pos) {

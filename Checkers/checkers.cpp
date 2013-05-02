@@ -6,6 +6,7 @@
 Checkers::Checkers()
 {
     this->game = new CheckersGame();
+    this->actualNotation = new StdNotation(); // defaultne standartni notace
     this->onTurn = PLAYER_W;    // white starts
     this->gameOver = false; // TODO: dokud nezacne hra, je povazovana za ukoncenou
 }
@@ -22,7 +23,6 @@ BoardTypes Checkers::getBoard(Position pos) {
 
 
 /*debug*/
-
 
 void Checkers::debugMoveVec(QVector<Move> v) {
 
@@ -44,15 +44,12 @@ bool Checkers::moveFigure(Move move) {
     debugMoveVec(possibleMoves); // debug
 
     if (possibleMoves.contains(move)) {// po validnim tahu pridame move a zmenime board
-
-        game->updateBoard(move);
+        move = game->updateBoard(move);
         moves.append(move);
-
     } else {
         qDebug() << "nevalidni tah";
         return false;
     }
-
 
     //debugBoard();   //debug vypsani boardu
     return true;
@@ -158,7 +155,44 @@ void Checkers::endGame(PlayerColor winner)
     if (winner == PLAYER_W) qDebug() << "PLAYER WHITE WIN " << this->playerW->getName();
     if (winner == NONE) qDebug() << "!!!!!!!!!!!! NIKDO NEVYHRAL??? !!!!!!!!!!!!!!!!";
     qDebug() << "********************";
+    //debugNotation(moves);
+
+    //actualNotation->convert(moves);
+    this->debugMoveVec(this->loadGame(STANDART,"karel.txt"));
+    qDebug() << "nove/actual";
+    this->debugMoveVec(moves);
+    //actualNotation->debugNotation();
+    //actualNotation->debugNotation();
+
+    //this->saveGame();
+
     gameOver = true;
+}
+
+QVector<Move> Checkers::loadGame(NotationType notationType, QString fileName)
+{
+    Notation *notation;
+    QVector<Move> move;
+
+   switch (notationType) {
+       case STANDART:
+            notation = new StdNotation();
+            break;
+       case TEST:
+            notation = new TestNotation();
+            break;
+       case XML:
+            //notation = new XMLNotation();
+            //break;
+       default:
+           qDebug() << "Wrong notation";
+           break;
+
+   }
+   move = notation->loadGame(fileName);
+   notation->debugNotation();
+   return move;
+
 }
 
 Player * Checkers::getPlayerOnTurn() {

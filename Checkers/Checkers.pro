@@ -21,7 +21,10 @@ SOURCES +=\
     aiplayer.cpp \
     guifigure.cpp \
     guisquare.cpp \
-    checkersgame.cpp
+    checkersgame.cpp \
+    notation.cpp \
+    stdnotation.cpp \
+    testnotation.cpp
 
 HEADERS  += \
     checkerswindow.h \
@@ -34,7 +37,10 @@ HEADERS  += \
     aiplayer.h \
     guifigure.h \
     guisquare.h \
-    checkersgame.h
+    checkersgame.h \
+    notation.h \
+    stdnotation.h \
+    testnotation.h
 
 FORMS    += checkerswindow.ui
 

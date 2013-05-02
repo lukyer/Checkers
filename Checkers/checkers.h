@@ -6,11 +6,17 @@
 #include <QCoreApplication>
 #include <QTime>
 
+#include <fstream>
+#include <iostream>
+#include <QFile>
+
 #include "player.h"
 #include "move.h"
 #include "common.h"
 #include "checkersgame.h"
-
+#include "notation.h"
+#include "stdnotation.h"
+#include "testnotation.h"
 
 
 
@@ -31,6 +37,7 @@ public:
 
 private:
 
+
     Player *getPlayerW();
     Player *getPlayerB();
     PlayerColor getOnTurn();
@@ -41,12 +48,14 @@ private:
     Player *playerB;
     PlayerColor onTurn;
     CheckersGame *game;
+    Notation *actualNotation;
+
     bool gameOver;
 
+    QVector<Move> loadGame(NotationType,QString);
 
     void makeMove(Position); // debug zatim, smazat
     void debugMoveVec(QVector<Move>); //debug vypis move Vectoru
-
 
 
 };

@@ -11,10 +11,13 @@ public:
     Move(Position, Position);
     Position getFrom();
     Position getTo();
+    std::pair<BoardTypes,Position> getTakenFigure();
+    void setTakenFigure(std::pair<BoardTypes,Position>);
     bool operator==(const Move &x);
 private:
     Position from;
     Position to;
+    std::pair<BoardTypes,Position> takenFigure;
 };
 
 #endif // MOVE_H
