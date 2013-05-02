@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "realplayer.h"
+#include "checkers.h"
 
 namespace Ui {
 class CheckersWindow;
@@ -18,6 +19,12 @@ public:
     
 private:
     Ui::CheckersWindow *ui;
+    Checkers *checkers;
+
+private slots:
+    void on_actionPripoj_server_triggered();
+    void on_actionVytvor_server_triggered();
+    void on_actionNov_triggered();
 };
 
 #endif // CHECKERSWINDOW_H

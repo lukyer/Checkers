@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 TARGET = Checkers
 TEMPLATE = app
@@ -15,26 +15,30 @@ SOURCES +=\
     main.cpp \
     move.cpp \
     checkers.cpp \
-    player.cpp \
     realplayer.cpp \
     guiboard.cpp \
     aiplayer.cpp \
     guifigure.cpp \
     guisquare.cpp \
-    checkersgame.cpp
+    checkersgame.cpp \
+    networkplayer.cpp \
+    network.cpp \
+    abstractplayer.cpp
 
 HEADERS  += \
     checkerswindow.h \
     move.h \
     checkers.h \
-    player.h \
     common.h \
     realplayer.h \
     guiboard.h \
     aiplayer.h \
     guifigure.h \
     guisquare.h \
-    checkersgame.h
+    checkersgame.h \
+    networkplayer.h \
+    network.h \
+    abstractplayer.h
 
 FORMS    += checkerswindow.ui
 

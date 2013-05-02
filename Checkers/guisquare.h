@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "common.h"
 #include "guifigure.h"
+#include "move.h"
 
 class GUIFigure;    // kvuli kruhove zavislosti GUIFigure <> GUISquare
 
@@ -43,7 +44,7 @@ private:
     bool emitSignalsFlag;
 
 signals:
-    void wantMove(Position, Position);
+    void wantMove(Move, PlayerType = PLAYER_REAL);
     
 public slots:
     

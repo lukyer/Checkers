@@ -1,14 +1,6 @@
 #include "realplayer.h"
 
-RealPlayer::RealPlayer() {
+RealPlayer::RealPlayer(PlayerColor color) : AbstractPlayer(color) {
     name = "Nonamed REAL";
     this->setType(PLAYER_REAL);
-}
-
-bool RealPlayer::move() {
-    /*if (this->checker == null) {
-        qDebug() << "Checker has not been set!";
-        return false;
-    }*/
-    qDebug() << "I am real player called " << name << " and i am moving!";
 }

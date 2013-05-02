@@ -2,17 +2,15 @@
 #define REALPLAYER_H
 
 #include <QDebug>
-#include "player.h"
-
-#include <aiplayer.h>
+#include "abstractplayer.h"
 
 
-class RealPlayer :  public Player
+
+class RealPlayer :  public AbstractPlayer
 {
 
 public:
-    RealPlayer();
-    bool move() override;
+    RealPlayer(PlayerColor);
 
 
 };
