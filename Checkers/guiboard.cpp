@@ -50,7 +50,7 @@ GUIBoard::GUIBoard(QWidget *parent) : QGraphicsView(parent)
                 */
              grid->addItem(square, 7-x, y); // 7-x protoze kreslime zvrchu dolu, ale pole mame zdola nahoru
              // Aby figurka nemusela mit pristup k pianu (top objekt Checkers), tak jen od ni vyzvedavame signaly v pripade interakce
-             connect(square, SIGNAL(wantMove(Position,Position)), this, SLOT(figureMove(Position,Position)));
+             connect(square, SIGNAL(wantMove(Move, PlayerType)), this, SLOT(figureMove(Move, PlayerType)));
 
          }
      }
@@ -98,16 +98,59 @@ void GUIBoard::timeout()
     this->redraw();
 }
 
-
-
-void GUIBoard::figureMove(Position from, Position to)
+void GUIBoard::settingsReceived(GameSettings settings)
 {
+
+    AbstractPlayer *player1;
+    AbstractPlayer *player2;
+    if (settings.color == PLAYER_W) {
+        player1 = new NetworkPlayer(PLAYER_W);
+        player1->setName("lukyer");
+        player2 = new RealPlayer(PLAYER_B);
+        player2->setName("kulo");
+        qDebug() << "SETTINGS HAS ARRIVED!" << " MY COLOR IS BLACK";
+    } else {
+        player1 = new RealPlayer(PLAYER_W);
+        player1->setName("lukyer");
+        player2 = new NetworkPlayer(PLAYER_B);
+        player2->setName("kulo");
+        qDebug() << "SETTINGS HAS ARRIVED!" << " MY COLOR IS WHITE";
+    }
+    checkers->setPlayerW(player1);
+    checkers->setPlayerB(player2);
+
+    player1->setCheckersGame(checkers->getGame()); // pro ziskavani possible tahu ... pokud uz neni zadny possible tah, oznamit prohru
+    player2->setCheckersGame(checkers->getGame());
+
+
+
+
+
+
+
+
+
+    checkers->resetGame();
+}
+
+
+
+void GUIBoard::figureMove(Move move, PlayerType type)
+{
+    // Tento slot se vola i kdyz tahne network player a proto musim delat tak, at je dovoleno tahnout i za protihrace ktery je NETWORK jakoby
+    // Jenze to by mohl potom tahnout i pres GUI za sitoveho hrace hrac realny, takze dalsi parametr tohoto slotu musi byt kdo signal emitnul,
+    // jestli hrac real nebo network
+    Position from = move.getFrom();
+    Position to = move.getTo();
     qDebug() << "some figure moving " << from.x << "x" << from.y << " to " << to.x << "x" << to.y;
     Move change = Move(from, to);
 
     //bool moved = this->checkers->moveFigure(change);
-    Player *turnPlayer = this->checkers->getPlayerOnTurn();
-    if (turnPlayer == null) throw "No player on turn!!!";
+    AbstractPlayer *turnPlayer = this->checkers->getPlayerOnTurn();
+    if (turnPlayer->getType() != type) {
+        qDebug() << "You're not allowed to control this player!";
+        return;   // not allowed
+    }
     turnPlayer->setMove(change);
     turnPlayer->setReady();
     this->checkers->play();

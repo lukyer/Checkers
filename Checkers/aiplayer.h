@@ -1,16 +1,14 @@
 #ifndef AIPLAYER_H
 #define AIPLAYER_H
 
-#include "player.h"
+#include "abstractplayer.h"
 #include <QDebug>
 #include <QCoreApplication>
-#include <QTime>
 
-class AIPlayer : public Player
+class AIPlayer : public AbstractPlayer
 {
 public:
-    AIPlayer();
-    bool move() override;
+    AIPlayer(PlayerColor color);
     bool isReady();
     Move getMove();    
 };

@@ -6,11 +6,11 @@
 #include <QCoreApplication>
 #include <QTime>
 
-#include "player.h"
+#include "abstractplayer.h"
 #include "move.h"
 #include "common.h"
 #include "checkersgame.h"
-
+#include "network.h"
 
 
 
@@ -20,29 +20,30 @@ public:
     Checkers();
 
     bool moveFigure(Move);
-    void setPlayerW(Player *);
-    void setPlayerB(Player *);
+    void setPlayerW(AbstractPlayer *);
+    void setPlayerB(AbstractPlayer *);
     void play();
     BoardTypes getBoard(Position);
     void resetGame();
-    Player *getPlayerOnTurn();
+    AbstractPlayer *getPlayerOnTurn();
     CheckersGame *getGame();
     bool isGameOver();
+    Network *getNetwork();
 
 private:
 
-    Player *getPlayerW();
-    Player *getPlayerB();
+    AbstractPlayer *getPlayerW();
+    AbstractPlayer *getPlayerB();
     PlayerColor getOnTurn();
     void endGame(PlayerColor);
 
     QVector<Move> moves;
-    Player *playerW;
-    Player *playerB;
+    AbstractPlayer *playerW;
+    AbstractPlayer *playerB;
     PlayerColor onTurn;
     CheckersGame *game;
     bool gameOver;
-
+    Network *net;
 
     void makeMove(Position); // debug zatim, smazat
     void debugMoveVec(QVector<Move>); //debug vypis move Vectoru
